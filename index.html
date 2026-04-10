@@ -661,6 +661,70 @@
       flex-wrap: wrap;
       margin-top: 22px;
     }
+    .share-section {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(180deg, #ffffff, #fbfdfb);
+    }
+    .share-section h3 {
+      font-size: 16px;
+      margin-bottom: 14px;
+    }
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-share {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .16s ease;
+    }
+    .btn-share:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(47, 73, 55, 0.1);
+      border-color: var(--accent);
+    }
+    .btn-share .icon {
+      font-size: 16px;
+    }
+    .btn-share.wechat { border-color: #07c160; color: #07c160; }
+    .btn-share.wechat:hover { background: #f0faf3; }
+    .btn-share.weibo { border-color: #e6162d; color: #e6162d; }
+    .btn-share.weibo:hover { background: #fef0f1; }
+    .btn-share.twitter { border-color: #1da1f2; color: #1da1f2; }
+    .btn-share.twitter:hover { background: #f0f9fe; }
+    .share-toast {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--accent-strong);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all .3s ease;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    .share-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
     @media (max-width: 860px) {
       .result-top { grid-template-columns: 1fr; }
     }
@@ -745,6 +809,17 @@
           <div class="note-box">
             <h3>友情提示</h3>
             <p id="funNote">本测试仅供娱乐，别拿它当诊断、面试、相亲、分手、招魂、算命或人生判决书。</p>
+          </div>
+
+          <div class="share-section">
+            <h3>分享你的测试结果</h3>
+            <div class="share-buttons">
+              <button class="btn-share" id="copyTextBtn"><span class="icon">📋</span>复制结果</button>
+              <button class="btn-share" id="downloadImageBtn"><span class="icon">🖼️</span>保存图片</button>
+              <button class="btn-share wechat" id="shareWechatBtn"><span class="icon">💬</span>微信</button>
+              <button class="btn-share weibo" id="shareWeiboBtn"><span class="icon">📢</span>微博</button>
+              <button class="btn-share twitter" id="shareTwitterBtn"><span class="icon">🐦</span>Twitter</button>
+            </div>
           </div>
 
                     <details class="author-box">
@@ -1680,6 +1755,7 @@
 
     function renderResult() {
       const result = computeResult();
+      lastResult = result;
       const type = result.finalType;
 
       document.getElementById('resultModeKicker').textContent = result.modeKicker;
@@ -1728,6 +1804,232 @@
     document.getElementById('submitBtn').addEventListener('click', renderResult);
     document.getElementById('restartBtn').addEventListener('click', () => startTest(false));
     document.getElementById('toTopBtn').addEventListener('click', () => showScreen('intro'));
+
+    /* ========== 分享功能 ========== */
+    let lastResult = null;
+
+    function getShareText() {
+      if (!lastResult) return '';
+      const type = lastResult.finalType;
+      const dimText = dimensionOrder.map(dim => {
+        const name = dimensionMeta[dim].name;
+        const level = lastResult.levels[dim];
+        return `${name}: ${level}`;
+      }).join('\n');
+      return `我的SBTI人格是 ${type.code}（${type.cn}）\n${lastResult.badge}\n\n${type.intro}\n\n十五维度：\n${dimText}\n\n来测测你的人格 → ${location.href}`;
+    }
+
+    function showToast(msg) {
+      let toast = document.querySelector('.share-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'share-toast';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function generateShareImage() {
+      return new Promise((resolve) => {
+        const type = lastResult.finalType;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const W = 750, H = 1000;
+        const canvas = document.createElement('canvas');
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        // 背景
+        const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+        bgGrad.addColorStop(0, '#f8fff8');
+        bgGrad.addColorStop(0.5, '#f2f7f3');
+        bgGrad.addColorStop(1, '#edf6ef');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, W, H);
+
+        // 顶部装饰圆
+        ctx.fillStyle = 'rgba(108, 141, 113, 0.08)';
+        ctx.beginPath();
+        ctx.arc(W - 60, 60, 120, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 标题
+        ctx.fillStyle = '#4d6a53';
+        ctx.font = 'bold 24px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('SBTI 人格测试结果', W / 2, 60);
+
+        // 类型代号
+        ctx.fillStyle = '#1e2a22';
+        ctx.font = 'bold 64px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText(type.code, W / 2, 150);
+
+        // 中文名
+        ctx.fillStyle = '#6a786f';
+        ctx.font = '28px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText(type.cn, W / 2, 195);
+
+        // badge
+        ctx.fillStyle = '#4d6a53';
+        ctx.font = 'bold 18px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText(lastResult.badge, W / 2, 240);
+
+        // intro
+        ctx.fillStyle = '#6a786f';
+        ctx.font = '18px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText(type.intro, W / 2, 280);
+
+        // 维度卡片区域
+        const cardY = 320;
+        const cardH = 520;
+        ctx.fillStyle = '#ffffff';
+        roundRect(ctx, 30, cardY, W - 60, cardH, 18);
+        ctx.fill();
+        ctx.strokeStyle = '#dbe8dd';
+        ctx.lineWidth = 1;
+        roundRect(ctx, 30, cardY, W - 60, cardH, 18);
+        ctx.stroke();
+
+        // 维度标题
+        ctx.fillStyle = '#1e2a22';
+        ctx.font = 'bold 20px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('十五维度评分', 60, cardY + 38);
+
+        // 维度条
+        const barStartY = cardY + 60;
+        const barH = 28;
+        const barGap = 6;
+        const barW = W - 160;
+        dimensionOrder.forEach((dim, i) => {
+          const y = barStartY + i * (barH + barGap);
+          const name = dimensionMeta[dim].name.split(' ')[1] || dimensionMeta[dim].name;
+          const raw = lastResult.rawScores[dim];
+          const maxRaw = 6;
+          const pct = raw / maxRaw;
+
+          // 维度名
+          ctx.fillStyle = '#1e2a22';
+          ctx.font = '13px "PingFang SC", "Microsoft YaHei", sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText(name, 60, y + 18);
+
+          // 背景条
+          ctx.fillStyle = '#edf3ee';
+          roundRect(ctx, 150, y + 4, barW, barH - 8, 6);
+          ctx.fill();
+
+          // 填充条
+          const fillW = Math.max(barW * pct, 0);
+          if (fillW > 0) {
+            const fillGrad = ctx.createLinearGradient(150, 0, 150 + fillW, 0);
+            fillGrad.addColorStop(0, '#97b59c');
+            fillGrad.addColorStop(1, '#5b7a62');
+            ctx.fillStyle = fillGrad;
+            roundRect(ctx, 150, y + 4, fillW, barH - 8, 6);
+            ctx.fill();
+          }
+
+          // 分数
+          ctx.fillStyle = '#4d6a53';
+          ctx.font = 'bold 12px "PingFang SC", "Microsoft YaHei", sans-serif';
+          ctx.textAlign = 'right';
+          ctx.fillText(`${lastResult.levels[dim]}`, W - 60, y + 18);
+        });
+
+        // 底部
+        ctx.fillStyle = '#6a786f';
+        ctx.font = '14px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('来测测你的 SBTI 人格 →', W / 2, H - 50);
+        ctx.fillStyle = '#4d6a53';
+        ctx.font = 'bold 14px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText(location.href, W / 2, H - 26);
+
+        resolve(canvas);
+      });
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.arcTo(x + w, y, x + w, y + r, r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+      ctx.lineTo(x + r, y + h);
+      ctx.arcTo(x, y + h, x, y + h - r, r);
+      ctx.lineTo(x, y + r);
+      ctx.arcTo(x, y, x + r, y, r);
+      ctx.closePath();
+    }
+
+    // 复制文本
+    document.getElementById('copyTextBtn').addEventListener('click', async () => {
+      const text = getShareText();
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast('已复制到剪贴板，去分享吧！');
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;left:-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('已复制到剪贴板！');
+      }
+    });
+
+    // 下载图片
+    document.getElementById('downloadImageBtn').addEventListener('click', async () => {
+      const canvas = await generateShareImage();
+      const link = document.createElement('a');
+      const typeName = lastResult ? lastResult.finalType.code : 'result';
+      link.download = `SBTI-${typeName}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('图片已保存！');
+    });
+
+    // 微信分享（提示截图/复制链接）
+    document.getElementById('shareWechatBtn').addEventListener('click', async () => {
+      const canvas = await generateShareImage();
+      try {
+        canvas.toBlob(async (blob) => {
+          if (navigator.share && blob) {
+            const file = new File([blob], `SBTI-${lastResult.finalType.code}.png`, { type: 'image/png' });
+            await navigator.share({ title: '我的SBTI人格测试结果', files: [file] });
+          } else {
+            showToast('长按保存图片，在微信中发送');
+            const link = document.createElement('a');
+            link.download = `SBTI-${lastResult.finalType.code}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+          }
+        }, 'image/png');
+      } catch {
+        showToast('长按保存图片，在微信中发送');
+      }
+    });
+
+    // 微博分享
+    document.getElementById('shareWeiboBtn').addEventListener('click', async () => {
+      const text = encodeURIComponent(getShareText());
+      window.open(`https://service.weibo.com/share/share.php?title=${text}`, '_blank', 'width=600,height=500');
+    });
+
+    // Twitter 分享
+    document.getElementById('shareTwitterBtn').addEventListener('click', () => {
+      const type = lastResult.finalType;
+      const text = encodeURIComponent(`我的SBTI人格是 ${type.code}（${type.cn}）！${type.intro}\n来测测你的 →`);
+      const url = encodeURIComponent(location.href);
+      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'width=600,height=500');
+    });
   </script>
 
 </body>
