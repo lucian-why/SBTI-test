@@ -710,7 +710,7 @@
       <div class="test-wrap card">
         <div class="topbar">
           <div class="progress"><span id="progressBar"></span></div>
-          <div class="progress-text" id="progressText">0 / 31</div>
+          <div class="progress-text" id="progressText">0 / ?</div>
         </div>
 
         <div id="questionList" class="question-list"></div>
@@ -782,6 +782,12 @@
 
   
   <script>
+    function escapeHTML(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
     const dimensionMeta = {
       S1: { name: 'S1 自尊自信', model: '自我模型' },
       S2: { name: 'S2 自我清晰度', model: '自我模型' },
@@ -1527,21 +1533,22 @@
       visibleQuestions.forEach((q, index) => {
         const card = document.createElement('article');
         card.className = 'question';
+        card.dataset.questionId = q.id;
         card.innerHTML = `
           <div class="question-meta">
             <div class="badge">第 ${index + 1} 题</div>
-            <div>${getQuestionMetaLabel(q)}</div>
+            <div>${escapeHTML(getQuestionMetaLabel(q))}</div>
           </div>
-          <div class="question-title">${q.text}</div>
+          <div class="question-title">${escapeHTML(q.text)}</div>
           <div class="options">
             ${q.options.map((opt, i) => {
               const code = ['A', 'B', 'C', 'D'][i] || String(i + 1);
               const checked = app.answers[q.id] === opt.value ? 'checked' : '';
               return `
                 <label class="option">
-                  <input type="radio" name="${q.id}" value="${opt.value}" ${checked} />
-                  <div class="option-code">${code}</div>
-                  <div>${opt.label}</div>
+                  <input type="radio" name="${escapeHTML(q.id)}" value="${opt.value}" ${checked} />
+                  <div class="option-code">${escapeHTML(code)}</div>
+                  <div>${escapeHTML(opt.label)}</div>
                 </label>
               `;
             }).join('')}
@@ -1559,7 +1566,9 @@
             if (Number(value) !== 3) {
               delete app.answers['drink_gate_q2'];
             }
-            renderQuestions();
+            insertOrRemoveDrunkQuestion();
+            updateProgress();
+            renumberQuestions();
             return;
           }
 
@@ -1568,6 +1577,59 @@
       });
 
       updateProgress();
+    }
+
+    function insertOrRemoveDrunkQuestion() {
+      const drunkQ = specialQuestions[1];
+      const gateCard = questionList.querySelector('[data-question-id="drink_gate_q1"]');
+      if (!gateCard) return;
+
+      const existingDrunkCard = questionList.querySelector('[data-question-id="drink_gate_q2"]');
+      const shouldShow = app.answers['drink_gate_q1'] === 3;
+
+      if (shouldShow && !existingDrunkCard) {
+        const card = document.createElement('article');
+        card.className = 'question';
+        card.dataset.questionId = drunkQ.id;
+        card.innerHTML = `
+          <div class="question-meta">
+            <div class="badge">补充题</div>
+            <div>${escapeHTML(getQuestionMetaLabel(drunkQ))}</div>
+          </div>
+          <div class="question-title">${escapeHTML(drunkQ.text)}</div>
+          <div class="options">
+            ${drunkQ.options.map((opt, i) => {
+              const code = ['A', 'B', 'C', 'D'][i] || String(i + 1);
+              const checked = app.answers[drunkQ.id] === opt.value ? 'checked' : '';
+              return `
+                <label class="option">
+                  <input type="radio" name="${escapeHTML(drunkQ.id)}" value="${opt.value}" ${checked} />
+                  <div class="option-code">${escapeHTML(code)}</div>
+                  <div>${escapeHTML(opt.label)}</div>
+                </label>
+              `;
+            }).join('')}
+          </div>
+        `;
+        gateCard.after(card);
+        card.querySelectorAll('input[type="radio"]').forEach(input => {
+          input.addEventListener('change', (e) => {
+            const { name, value } = e.target;
+            app.answers[name] = Number(value);
+            updateProgress();
+          });
+        });
+      } else if (!shouldShow && existingDrunkCard) {
+        existingDrunkCard.remove();
+      }
+    }
+
+    function renumberQuestions() {
+      const cards = questionList.querySelectorAll('.question');
+      cards.forEach((card, index) => {
+        const badgeDiv = card.querySelector('.badge');
+        if (badgeDiv) badgeDiv.textContent = `第 ${index + 1} 题`;
+      });
     }
 
     function updateProgress() {
@@ -1625,7 +1687,8 @@
           distance += diff;
           if (diff === 0) exact += 1;
         }
-        const similarity = Math.max(0, Math.round((1 - distance / 30) * 100));
+        const maxDistance = dimensionOrder.length * 2;
+        const similarity = Math.max(0, Math.round((1 - distance / maxDistance) * 100));
         return { ...type, ...TYPE_LIBRARY[type.code], distance, exact, similarity };
       }).sort((a, b) => {
         if (a.distance !== b.distance) return a.distance - b.distance;
@@ -1638,7 +1701,7 @@
 
       let finalType;
       let modeKicker = '你的主类型';
-      let badge = `匹配度 ${bestNormal.similarity}% · 精准命中 ${bestNormal.exact}/15 维`;
+      let badge = `匹配度 ${bestNormal.similarity}% · 精准命中 ${bestNormal.exact}/${dimensionOrder.length} 维`;
       let sub = '维度命中度较高，当前结果可视为你的第一人格画像。';
       let special = false;
       let secondaryType = null;
@@ -1682,10 +1745,10 @@
         return `
           <div class="dim-item">
             <div class="dim-item-top">
-              <div class="dim-item-name">${dimensionMeta[dim].name}</div>
-              <div class="dim-item-score">${level} / ${result.rawScores[dim]}分</div>
+              <div class="dim-item-name">${escapeHTML(dimensionMeta[dim].name)}</div>
+              <div class="dim-item-score">${escapeHTML(level)} / ${escapeHTML(String(result.rawScores[dim]))}分</div>
             </div>
-            <p>${explanation}</p>
+            <p>${escapeHTML(explanation)}</p>
           </div>
         `;
       }).join('');
