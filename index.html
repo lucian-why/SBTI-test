@@ -699,6 +699,43 @@
       font-size: 12px;
       line-height: 1.7;
     }
+    .social-links {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .16s ease;
+    }
+    .social-links a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(47,73,55,0.1);
+      border-color: var(--accent);
+    }
+    .social-links a .social-icon {
+      font-size: 15px;
+    }
+    .social-links a.twitter-link { border-color: #1da1f2; color: #1da1f2; }
+    .social-links a.twitter-link:hover { background: #f0f9fe; }
+    .social-links a.xhs-link { border-color: #ff2442; color: #ff2442; }
+    .social-links a.xhs-link:hover { background: #fff5f6; }
+    .social-links a.douyin-link { border-color: #000; color: #000; }
+    .social-links a.douyin-link:hover { background: #f5f5f5; }
+    .social-links a.zhihu-link { border-color: #0066ff; color: #0066ff; }
+    .social-links a.zhihu-link:hover { background: #f0f5ff; }
 
     
     .result-layout {
@@ -1118,6 +1155,12 @@
           <button id="startBtn" class="btn-primary">开始测试</button>
           <button id="historyEntryBtn" class="btn-secondary">查看历史结果</button>
           <button id="langToggleBtn" class="btn-secondary">English</button>
+        </div>
+        <div class="social-links">
+          <a href="https://x.com/lucian_why" target="_blank" rel="noopener" class="twitter-link"><span class="social-icon">𝕏</span>Twitter</a>
+          <a href="https://www.xiaohongshu.com/explore/69d85469000000001a02e2d1?xsec_token=ABODtlVTYKm9xH2VZVa9DvFCxgV9qinp2SVBq2S1PUhbw=&xsec_source=" target="_blank" rel="noopener" class="xhs-link"><span class="social-icon">📕</span>小红书</a>
+          <a href="https://v.douyin.com/KeavHCXHGwA/" target="_blank" rel="noopener" class="douyin-link"><span class="social-icon">🎵</span>抖音</a>
+          <a href="https://zhuanlan.zhihu.com/p/2025870574786815883" target="_blank" rel="noopener" class="zhihu-link"><span class="social-icon">💡</span>知乎</a>
         </div>
         <p id="historySummary" class="hero-status">还没有保存过测试结果，做完一次测试后会自动记录在当前设备里。</p>
       </div>
