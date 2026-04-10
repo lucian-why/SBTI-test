@@ -1937,6 +1937,89 @@
       }
     };
 
+    const QUESTION_TRANSLATIONS = {
+      q1: { text: 'I am broke, awkward, insecure, never dated, and my youth has basically been a long chain of unrealistic fantasies. Every time I see jokes about losers online, I feel personally attacked. How much does this sound like you?', options: ['I am crying.', 'What is this...', 'This is not me!'] },
+      q2: { text: 'I am not good enough. People around me are better than I am.', options: ['True', 'Sometimes', 'No'] },
+      q3: { text: 'I have a clear sense of who I really am.', options: ['Disagree', 'Neutral', 'Agree'] },
+      q4: { text: 'There is something I genuinely want deep inside.', options: ['Disagree', 'Neutral', 'Agree'] },
+      q5: { text: 'I have to keep climbing and becoming stronger.', options: ['Disagree', 'Neutral', 'Agree'] },
+      q6: { text: 'Other people’s opinions about me do not really matter.', options: ['Disagree', 'Neutral', 'Agree'] },
+      q7: { text: 'Your partner has not replied for 5 hours and says they had diarrhea. What do you think first?', options: ['No way that took 5 hours. Maybe they are hiding something.', 'I swing between trust and suspicion.', 'Maybe they really are not feeling well today.'] },
+      q8: { text: 'In relationships, I often worry that I will be abandoned.', options: ['Yes', 'Sometimes', 'No'] },
+      q9: { text: 'I swear I take every relationship seriously.', options: ['Not really', 'Maybe?', 'Yes, absolutely'] },
+      q10: { text: 'Imagine your partner is kind, clean, noble, eloquent, wise, warm, ambitious, and ridiculously attractive. What happens to you?', options: ['Even if they are amazing, I would not fall too deeply.', 'Probably somewhere in between.', 'I would treasure them a lot and might become love-brained.'] },
+      q11: { text: 'After getting into a relationship, your partner becomes very clingy. How do you feel?', options: ['That sounds great', 'Either way is fine', 'I prefer keeping some independence'] },
+      q12: { text: 'I value personal space in every relationship.', options: ['I prefer dependence and being depended on', 'Depends', 'Yes, definitely'] },
+      q13: { text: 'Most people are kind.', options: ['Human hearts are darker than hemorrhoids.', 'Maybe.', 'Yes, I want to believe there are more good people.'] },
+      q14: { text: 'A super cute little girl walks up to you on the street and offers you a lollipop. What is your first thought?', options: ['Aww, she is adorable. She gave me candy!', 'I am confused.', 'Is this some new scam? Better walk away.'] },
+      q15: { text: 'It is almost exam time. Evening study is mandatory, but tonight you were invited to play a game with your crush. What do you do?', options: ['Skip study. It is only once.', 'Take leave and go.', 'Exams are close. Better stay.'] },
+      q16: { text: 'I like breaking routines and dislike being constrained.', options: ['Agree', 'Neutral', 'Disagree'] },
+      q17: { text: 'I usually do things with a goal in mind.', options: ['Disagree', 'Neutral', 'Agree'] },
+      q18: { text: 'One day I realized life might have no grand meaning at all. Humans are just driven by desire and hormones like animals.', options: ['That sounds right.', 'Maybe yes, maybe no.', 'That is nonsense.'] },
+      q19: { text: 'I usually act to achieve results and progress, not just to avoid risk or trouble.', options: ['Disagree', 'Neutral', 'Agree'] },
+      q20: { text: 'You have been constipated on the toilet for 30 minutes. Which option sounds most like you?', options: ['Stay another 30 minutes and see what happens.', 'Slap your own butt and yell at it.', 'Use medicine and solve it fast.'] },
+      q21: { text: 'I make decisions quickly and do not like dragging them out.', options: ['Disagree', 'Neutral', 'Agree'] },
+      q22: { text: 'There is no actual question here. Please choose blindly.', options: ['After thinking too much, maybe A?', 'Hmm... maybe B?', 'When in doubt, C?'] },
+      q23: { text: 'When people say you have strong execution, what feels closest inside?', options: ['Only when deadlines scare me enough.', 'Sometimes, I guess.', 'Yes. Things should move forward.'] },
+      q24: { text: 'I often make plans, and then...', options: ['Reality changes faster than the plan.', 'Sometimes I finish them, sometimes I do not.', 'I hate it when my plan gets broken.'] },
+      q25: { text: 'You met many online friends through a game and they invite you to meet offline. What do you think?', options: ['Online hype is one thing. Meeting in person is scary.', 'Could be fun. If someone talks to me, I will chat.', 'I would dress up and talk enthusiastically. You never know.'] },
+      q26: { text: 'Your friend brings their friend to hang out too. What are you most likely like?', options: ['I naturally keep some distance from a friend-of-a-friend.', 'Depends on them. If it clicks, it clicks.', 'A friend of my friend is basically my friend too.'] },
+      q27: { text: 'Around people, I run on an invisible electric fence. If others get too close, alarms go off.', options: ['Agree', 'Neutral', 'Disagree'] },
+      q28: { text: 'I want deep closeness with people I trust, like long-lost family.', options: ['Agree', 'Neutral', 'Disagree'] },
+      q29: { text: 'Sometimes you clearly have a negative opinion but do not say it. Why most often?', options: ['That does not happen much.', 'Out of politeness or the relationship.', 'I do not want others to see my darker side.'] },
+      q30: { text: 'I show different sides of myself around different people.', options: ['Disagree', 'Neutral', 'Agree'] },
+      drink_gate_q1: { text: 'What is your usual hobby?', options: ['Basic living stuff', 'Art things', 'Drinking', 'Working out'] },
+      drink_gate_q2: { text: 'What is your attitude toward drinking?', options: ['A little is enough. I cannot drink that much.', 'I treat strong liquor like water. Alcohol earns my respect.'] }
+    };
+
+    const TYPE_EN_COPY = {
+      CTRL: { intro: 'Everything is under control.', desc: 'You come across as structured, sharp, and difficult to shake. You like progress, competence, and order, and people often feel safer when you take the wheel.' },
+      'ATM-er': { intro: 'You keep paying in every way.', desc: 'You often become the reliable one who gives time, energy, patience, and support. Others lean on you because you feel sturdy even when you are quietly exhausted.' },
+      'Dior-s': { intro: 'Detached, tired, but weirdly insightful.', desc: 'You distrust empty ambition and see through social performance quickly. Your realism can look passive from outside, but it often comes from noticing what others ignore.' },
+      BOSS: { intro: 'Hand me the wheel.', desc: 'You like direction, momentum, and control. When things get messy, your first instinct is often to organize the room and move everyone forward.' },
+      'THAN-K': { intro: 'You can find light almost anywhere.', desc: 'You carry a strong tendency toward appreciation and emotional reframing. Even when life is annoying, you try to extract warmth, meaning, or grace from it.' },
+      'OH-NO': { intro: 'You notice risk before others do.', desc: 'You are careful, boundary-aware, and highly sensitive to what could go wrong. That can make you tense, but it also makes you good at preventing chaos.' },
+      GOGO: { intro: 'You move first and think in motion.', desc: 'You dislike endless delay and are drawn to action, completion, and visible movement. Your style can feel blunt, but it gets things unstuck.' },
+      SEXY: { intro: 'Your presence lands hard.', desc: 'You naturally draw attention, fascination, or projection. Whether you intend it or not, your vibe tends to linger in the room.' },
+      'LOVE-R': { intro: 'You feel love in high resolution.', desc: 'You are emotionally vivid, romantic, and intensely tuned to meaning in relationships. You often want depth, devotion, and something larger than ordinary practicality.' },
+      MUM: { intro: 'You hold people gently.', desc: 'You are caring, soft, and emotionally attentive. Others may experience you as comforting and healing, even when you forget to offer the same kindness to yourself.' },
+      FAKE: { intro: 'You adapt fast.', desc: 'You are socially flexible and highly aware of context. You shift tone and identity easily, which can make you effective, polished, and occasionally hard to pin down.' },
+      OJBK: { intro: 'You carry the philosophy of whatever.', desc: 'You do not love wasting energy on tiny decisions or performative drama. You can feel relaxed, detached, and oddly regal in the face of everyday noise.' },
+      MALO: { intro: 'Your mind still climbs trees.', desc: 'You are playful, impulsive, and allergic to over-serious rules. A part of you would always rather improvise, joke, or swing from the ceiling than behave correctly.' },
+      'JOKE-R': { intro: 'Humor is your survival gear.', desc: 'You process discomfort through irony, absurdity, and sideways laughter. People may see a clown first, but there is usually a sharp observer underneath.' },
+      'WOC!': { intro: 'You hit the room like a jump scare.', desc: 'You are intense, expressive, and hard to ignore. Your reactions carry force, and people around you often feel your emotional weather immediately.' },
+      'THIN-K': { intro: 'You think before you melt.', desc: 'You lean analytical, self-observing, and mentally active. Even in emotional situations, part of you keeps stepping back to interpret the whole scene.' },
+      SHIT: { intro: 'Your energy is feral and disruptive.', desc: 'You may be chaotic, emotionally loaded, and difficult to keep inside neat systems. There is raw force here, even when it spills everywhere.' },
+      ZZZZ: { intro: 'You would rather disappear for a while.', desc: 'You tend toward withdrawal, low stimulation, and conserving energy. Your pace is slower, quieter, and often more inward than the people around you expect.' },
+      POOR: { intro: 'Life feels heavy, but you keep going.', desc: 'You may carry strain, scarcity, or a deep sense of being worn down. Still, there is resilience in how you keep showing up inside that weight.' },
+      MONK: { intro: 'You pull back to stay intact.', desc: 'You lean toward restraint, distance, and inner order. Simplicity, quiet, and control over desire can feel safer than chaos or overexposure.' },
+      IMSB: { intro: 'Soft, fragile, and still trying.', desc: 'You may feel emotionally tender, dependent, or easily affected by the world. There is vulnerability here, but also sincerity.' },
+      SOLO: { intro: 'Alone is often cleaner.', desc: 'You are independent, self-contained, and cautious about over-merging with people. Solitude may not always be easy, but it often feels more manageable.' },
+      FUCK: { intro: 'You push back hard.', desc: 'You carry rebellion, frustration, and a refusal to stay polite forever. Even when messy, your stance says that some things deserve resistance, not accommodation.' },
+      DEAD: { intro: 'You feel drained to the bone.', desc: 'This type points to heaviness, depletion, and emotional shutdown. It is the feeling of running on fumes while trying to remain upright.' },
+      IMFW: { intro: 'You stay unbothered by default.', desc: 'You move through the world with distance and low emotional overcommitment. You do not easily hand your center to other people.' },
+      HHHH: { intro: 'You broke the normal type matcher.', desc: 'Your pattern did not fit neatly into the main library, so the system throws you into a deliberately absurd fallback zone. In other words: you are hard to categorize.' },
+      DRUNK: { intro: 'When the bottle speaks, the hidden self arrives.', desc: 'This is the special drinking-trigger result. It is exaggerated on purpose, chaotic by design, and meant as an easter egg rather than a diagnosis.' }
+    };
+
+    const EN_DIM_EXPLANATIONS = {
+      S1: { L: 'You are harsh on yourself and quick to doubt praise.', M: 'Your confidence rises and falls with context.', H: 'You have a relatively stable sense of your own worth.' },
+      S2: { L: 'Your inner picture of yourself can feel blurry or fragmented.', M: 'You usually know yourself, but emotion can still scramble the signal.', H: 'You have a strong grasp of your own motives and boundaries.' },
+      S3: { L: 'Comfort and safety often matter more than heroic striving.', M: 'You want growth, but not at any price.', H: 'You are strongly pulled by goals, ideals, or upward movement.' },
+      E1: { L: 'You are easily activated by uncertainty in closeness.', M: 'Trust and suspicion often wrestle inside you.', H: 'You are more able to assume connection is secure.' },
+      E2: { L: 'You hold emotional investment back carefully.', M: 'You can invest, but rarely without keeping some reserve.', H: 'When you care, you tend to care hard.' },
+      E3: { L: 'You may like closeness, dependence, and emotional merging.', M: 'You want both intimacy and breathing room.', H: 'Personal space matters a lot to you in relationships.' },
+      A1: { L: 'You tend to view people through caution or suspicion first.', M: 'You are watchful without being fully cynical.', H: 'You are more willing to believe in basic human goodwill.' },
+      A2: { L: 'Freedom and comfort often outrank strict rules.', M: 'You can follow structure, but you also bend when needed.', H: 'Order, procedure, and rules feel important to you.' },
+      A3: { L: 'Meaning can feel thin, unstable, or absent.', M: 'Your sense of purpose comes and goes.', H: 'You usually want your actions to point somewhere larger.' },
+      Ac1: { L: 'Avoiding risk may be stronger than chasing outcomes.', M: 'Your motives can be mixed between safety and ambition.', H: 'Progress, achievement, and visible results motivate you strongly.' },
+      Ac2: { L: 'You may loop, hesitate, or over-process decisions.', M: 'You can decide, but not always quickly.', H: 'You are fairly decisive and prefer not to linger.' },
+      Ac3: { L: 'Execution often arrives late, under pressure, or unevenly.', M: 'You can push things forward, but your rhythm varies.', H: 'You have a strong urge to move things into action.' },
+      So1: { L: 'Social initiation tends to warm up slowly.', M: 'You can meet people halfway without forcing it.', H: 'You are more likely to open the room yourself.' },
+      So2: { L: 'You may want closeness and easy emotional merging.', M: 'Your boundaries flex with person and context.', H: 'You protect your interpersonal boundaries quite strongly.' },
+      So3: { L: 'You are relatively direct and less layered in expression.', M: 'You balance honesty with social tact.', H: 'You shift presentation more depending on audience and setting.' }
+    };
+
     const app = {
       shuffledQuestions: [],
       answers: {},
@@ -1966,6 +2049,74 @@
       const dict = I18N[app.lang] || I18N.zh;
       const value = dict[key];
       return typeof value === 'function' ? value(...args) : value;
+    }
+
+    function getQuestionContent(question) {
+      const translation = app.lang === 'en' ? QUESTION_TRANSLATIONS[question.id] : null;
+      return {
+        text: translation ? translation.text : question.text,
+        options: question.options.map((option, index) => ({
+          ...option,
+          label: translation && translation.options[index] ? translation.options[index] : option.label
+        }))
+      };
+    }
+
+    function getTypeCopy(type) {
+      if (app.lang === 'en') {
+        const copy = TYPE_EN_COPY[type.code] || {};
+        return {
+          name: TYPE_EN_NAMES[type.code] || type.cn,
+          intro: copy.intro || TYPE_EN_NAMES[type.code] || type.code,
+          desc: copy.desc || ''
+        };
+      }
+      return {
+        name: type.cn,
+        intro: type.intro,
+        desc: type.desc
+      };
+    }
+
+    function formatDisplayName(type) {
+      const typeCopy = getTypeCopy(type);
+      return app.lang === 'en'
+        ? `${type.code} (${typeCopy.name})`
+        : `${type.code}（${typeCopy.name}）`;
+    }
+
+    function getResultPresentation(result) {
+      if (app.lang === 'en') {
+        if (result.finalType.code === 'DRUNK') {
+          return {
+            modeKicker: 'Hidden Type Triggered',
+            badge: '100% match · special alcohol trigger activated',
+            sub: `Base type in the background: ${formatDisplayName(result.bestNormal)}.`,
+            funNote: t('resultFunNoteSpecial')
+          };
+        }
+        if (result.finalType.code === 'HHHH') {
+          return {
+            modeKicker: 'System Fallback Mode',
+            badge: `Top normal-type match only reached ${result.bestNormal.similarity}%`,
+            sub: 'Your pattern was too weird for the main library, so the system dropped you into the joke fallback bucket.',
+            funNote: t('resultFunNoteSpecial')
+          };
+        }
+        return {
+          modeKicker: t('resultModeKicker'),
+          badge: `${result.bestNormal.similarity}% match · ${result.bestNormal.exact}/15 exact dimensions`,
+          sub: 'This is your closest current match in the standard type library.',
+          funNote: t('resultFunNoteNormal')
+        };
+      }
+
+      return {
+        modeKicker: result.modeKicker,
+        badge: result.badge,
+        sub: result.sub,
+        funNote: result.special ? t('resultFunNoteSpecial') : t('resultFunNoteNormal')
+      };
     }
 
     function setListContent(id, items) {
@@ -2141,9 +2292,10 @@
 
       historyList.innerHTML = app.history.map((item) => {
         const type = item.result && item.result.finalType ? item.result.finalType : null;
-        const title = type ? `${type.code}（${type.cn}）` : '历史结果';
-        const badge = item.result && item.result.badge ? item.result.badge : '暂无摘要';
-        const sub = item.result && item.result.sub ? item.result.sub : '暂无说明';
+        const presentation = item.result ? getResultPresentation(item.result) : null;
+        const title = type ? formatDisplayName(type) : (app.lang === 'en' ? 'Saved result' : '历史结果');
+        const badge = presentation ? presentation.badge : (app.lang === 'en' ? 'No summary yet' : '暂无摘要');
+        const sub = presentation ? presentation.sub : (app.lang === 'en' ? 'No note yet' : '暂无说明');
         return `
           <article class="history-item" data-history-id="${item.id}">
             <div class="history-item-top">
@@ -2214,6 +2366,7 @@
       const visibleQuestions = getVisibleQuestions();
       questionList.innerHTML = '';
       visibleQuestions.forEach((q, index) => {
+        const content = getQuestionContent(q);
         const card = document.createElement('article');
         card.className = 'question';
         card.innerHTML = `
@@ -2221,14 +2374,14 @@
             <div class="badge">${t('questionNumber', index + 1)}</div>
             <div>${getQuestionMetaLabel(q)}</div>
           </div>
-          <div class="question-title">${q.text}</div>
+          <div class="question-title">${content.text}</div>
           <div class="options">
-            ${q.options.map((opt, i) => {
+            ${content.options.map((opt, i) => {
               const code = ['A', 'B', 'C', 'D'][i] || String(i + 1);
-              const checked = app.answers[q.id] === opt.value ? 'checked' : '';
+              const checked = app.answers[q.id] === q.options[i].value ? 'checked' : '';
               return `
                 <label class="option">
-                  <input type="radio" name="${q.id}" value="${opt.value}" ${checked} />
+                  <input type="radio" name="${q.id}" value="${q.options[i].value}" ${checked} />
                   <div class="option-code">${code}</div>
                   <div>${opt.label}</div>
                 </label>
@@ -2367,7 +2520,9 @@
       const dimList = document.getElementById('dimList');
       dimList.innerHTML = dimensionOrder.map(dim => {
         const level = result.levels[dim];
-        const explanation = DIM_EXPLANATIONS[dim][level];
+        const explanation = app.lang === 'en'
+          ? EN_DIM_EXPLANATIONS[dim][level]
+          : DIM_EXPLANATIONS[dim][level];
         return `
           <div class="dim-item">
             <div class="dim-item-top">
@@ -2387,21 +2542,17 @@
         persistResult(result);
       }
       const type = result.finalType;
-      const displayName = app.lang === 'en'
-        ? `${type.code} (${TYPE_EN_NAMES[type.code] || type.cn})`
-        : `${type.code}（${type.cn}）`;
+      const typeCopy = getTypeCopy(type);
+      const displayName = formatDisplayName(type);
+      const presentation = getResultPresentation(result);
 
-      document.getElementById('resultModeKicker').textContent = app.lang === 'en' ? t('resultModeKicker') : result.modeKicker;
+      document.getElementById('resultModeKicker').textContent = presentation.modeKicker;
       document.getElementById('resultTypeName').textContent = displayName;
-      document.getElementById('matchBadge').textContent = result.badge;
-      document.getElementById('resultTypeSub').textContent = app.lang === 'en' ? t('resultSubFallback') : result.sub;
-      document.getElementById('resultDesc').textContent = type.desc;
-      document.getElementById('posterCaption').textContent = app.lang === 'en'
-        ? (TYPE_EN_NAMES[type.code] || type.code)
-        : type.intro;
-      document.getElementById('funNote').textContent = result.special
-        ? t('resultFunNoteSpecial')
-        : t('resultFunNoteNormal');
+      document.getElementById('matchBadge').textContent = presentation.badge;
+      document.getElementById('resultTypeSub').textContent = presentation.sub;
+      document.getElementById('resultDesc').textContent = typeCopy.desc;
+      document.getElementById('posterCaption').textContent = typeCopy.intro;
+      document.getElementById('funNote').textContent = presentation.funNote;
 
       const posterBox = document.getElementById('posterBox');
       const posterImage = document.getElementById('posterImage');
