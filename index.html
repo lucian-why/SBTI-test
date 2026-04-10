@@ -228,6 +228,158 @@
       overflow: hidden;
     }
 
+    .type-card-actions {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .type-card-actions button {
+      width: 100%;
+    }
+
+    .detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(18, 30, 23, 0.48);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10000;
+    }
+
+    .detail-overlay.show {
+      display: flex;
+    }
+
+    .detail-modal {
+      width: min(960px, 100%);
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      padding: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(18, 30, 23, 0.18);
+    }
+
+    .detail-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .detail-close {
+      flex-shrink: 0;
+    }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 18px;
+    }
+
+    .detail-poster,
+    .detail-summary,
+    .detail-dimensions,
+    .detail-note {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(180deg, #ffffff, #fbfdfb);
+    }
+
+    .detail-poster {
+      background:
+        radial-gradient(circle at top right, rgba(127, 165, 134, 0.12), rgba(127, 165, 134, 0) 42%),
+        linear-gradient(180deg, #ffffff, #f7fbf8);
+    }
+
+    .detail-poster img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.8);
+    }
+
+    .detail-kicker {
+      font-size: 12px;
+      color: var(--accent-strong);
+      letter-spacing: .06em;
+      margin-bottom: 8px;
+    }
+
+    .detail-name {
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .detail-intro {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .detail-desc {
+      margin-top: 16px;
+      color: #304034;
+      font-size: 15px;
+      line-height: 1.9;
+      white-space: pre-wrap;
+    }
+
+    .detail-summary-actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .detail-dimensions h3,
+    .detail-note h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .detail-dim-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .detail-dim-pill {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .detail-dim-pill .label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .detail-dim-pill .value {
+      color: var(--accent-strong);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .detail-note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
     button {
       border: 0;
       cursor: pointer;
@@ -906,6 +1058,7 @@
     }
     @media (max-width: 860px) {
       .result-top { grid-template-columns: 1fr; }
+      .detail-layout { grid-template-columns: 1fr; }
     }
 
 @media (max-width: 860px) {
@@ -913,6 +1066,7 @@
       .result-hero {
         grid-template-columns: 1fr;
       }
+      .detail-dim-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .dim-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
@@ -922,6 +1076,8 @@
       .hero h1 { font-size: 32px; }
       .question-title { font-size: 15px; }
       .types-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .detail-modal { padding: 16px; }
+      .detail-dim-grid { grid-template-columns: 1fr; }
       .dim-grid,
       .score-grid { grid-template-columns: 1fr; }
     }
@@ -1070,6 +1226,42 @@
       </div>
     </section>
 
+  </div>
+
+  <div id="typeDetailOverlay" class="detail-overlay" aria-hidden="true">
+    <div class="detail-modal">
+      <div class="detail-topbar">
+        <div class="eyebrow" id="detailEyebrow">人格详情</div>
+        <button id="detailCloseBtn" class="btn-secondary detail-close">关闭</button>
+      </div>
+
+      <div class="detail-layout">
+        <div class="detail-poster">
+          <img id="detailPosterImage" alt="人格详情图" />
+        </div>
+
+        <div class="detail-summary">
+          <div class="detail-kicker" id="detailKicker">图鉴详情</div>
+          <div class="detail-name" id="detailName">CTRL（拿捏者）</div>
+          <div class="detail-intro" id="detailIntro">怎么样，被我拿捏了吧？</div>
+          <div class="detail-desc" id="detailDesc"></div>
+          <div class="detail-summary-actions">
+            <button id="detailStartBtn" class="btn-primary">开始测试</button>
+            <button id="detailCloseBtnSecondary" class="btn-secondary">返回图鉴</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-dimensions" style="margin-top:18px;">
+        <h3 id="detailDimensionsTitle">典型维度倾向</h3>
+        <div id="detailDimGrid" class="detail-dim-grid"></div>
+      </div>
+
+      <div class="detail-note" style="margin-top:18px;">
+        <h3 id="detailNoteTitle">关于这个人格</h3>
+        <p id="detailNoteText">这个图鉴页用于展示每种人格的典型画像，方便你在正式测试前先感受风格。最终结果仍以你的测试结果为准。</p>
+      </div>
+    </div>
   </div>
 
   
@@ -1848,6 +2040,15 @@
         aboutTestSummary: '关于本测试',
         aboutTestP1: '本测试仅供娱乐，请勿用于任何严肃场合。测试结果不代表任何心理学或医学诊断。',
         aboutTestP2: '如有冒犯之处，敬请谅解，纯属娱乐性质。',
+        detailEyebrow: '人格详情',
+        detailKicker: '图鉴详情',
+        detailDimensionsTitle: '典型维度倾向',
+        detailNoteTitle: '关于这个人格',
+        detailNoteText: '这个图鉴页用于展示每种人格的典型画像，方便你在正式测试前先感受风格。最终结果仍以你的测试结果为准。',
+        detailStartBtn: '开始测试',
+        detailCloseBtn: '关闭',
+        detailCloseBtnSecondary: '返回图鉴',
+        detailViewBtn: '查看详情',
         restartBtn: '重新测试',
         toTopBtn: '回到首页',
         questionNumber: (index) => `第 ${index} 题`,
@@ -1909,6 +2110,15 @@
         aboutTestSummary: 'About This Test',
         aboutTestP1: 'This test is for fun only. It is not a psychological or medical diagnosis.',
         aboutTestP2: 'If anything feels offensive, please treat it as entertainment.',
+        detailEyebrow: 'Type Detail',
+        detailKicker: 'Profile View',
+        detailDimensionsTitle: 'Typical Dimension Pattern',
+        detailNoteTitle: 'About This Type',
+        detailNoteText: 'This gallery view shows the typical flavor of each type before you take the full test. Your actual result still depends on your own answers.',
+        detailStartBtn: 'Start Test',
+        detailCloseBtn: 'Close',
+        detailCloseBtnSecondary: 'Back to Gallery',
+        detailViewBtn: 'View Details',
         restartBtn: 'Retake',
         toTopBtn: 'Back Home',
         questionNumber: (index) => `Question ${index}`,
@@ -2047,6 +2257,7 @@
     const historySummary = document.getElementById('historySummary');
     const typesGrid = document.getElementById('typesGrid');
     const langToggleBtn = document.getElementById('langToggleBtn');
+    const typeDetailOverlay = document.getElementById('typeDetailOverlay');
 
     function t(key, ...args) {
       const dict = I18N[app.lang] || I18N.zh;
@@ -2122,6 +2333,11 @@
       };
     }
 
+    function getTypePattern(code) {
+      const normalType = NORMAL_TYPES.find((item) => item.code === code);
+      return normalType ? parsePattern(normalType.pattern) : null;
+    }
+
     function setListContent(id, items) {
       const el = document.getElementById(id);
       if (!el) return;
@@ -2153,6 +2369,14 @@
         aboutTestSummary: 'aboutTestSummary',
         aboutTestP1: 'aboutTestP1',
         aboutTestP2: 'aboutTestP2',
+        detailEyebrow: 'detailEyebrow',
+        detailKicker: 'detailKicker',
+        detailDimensionsTitle: 'detailDimensionsTitle',
+        detailNoteTitle: 'detailNoteTitle',
+        detailNoteText: 'detailNoteText',
+        detailStartBtn: 'detailStartBtn',
+        detailCloseBtn: 'detailCloseBtn',
+        detailCloseBtnSecondary: 'detailCloseBtnSecondary',
         restartBtn: 'restartBtn',
         toTopBtn: 'toTopBtn'
       };
@@ -2264,10 +2488,17 @@
               <div class="type-card-code">${escapeHtml(type.code)}</div>
               <div class="type-card-cn">${escapeHtml(displayName)}</div>
               <div class="type-card-intro">${escapeHtml(intro)}</div>
+              <div class="type-card-actions">
+                <button class="btn-secondary" data-action="open-type-detail" data-type-code="${type.code}">${escapeHtml(t('detailViewBtn'))}</button>
+              </div>
             </div>
           </article>
         `;
       }).join('');
+
+      typesGrid.querySelectorAll('[data-action="open-type-detail"]').forEach((button) => {
+        button.addEventListener('click', () => openTypeDetail(button.dataset.typeCode));
+      });
     }
 
     function createHistoryRecord(result) {
@@ -2333,6 +2564,52 @@
           renderHistory();
         });
       });
+    }
+
+    function closeTypeDetail() {
+      typeDetailOverlay.classList.remove('show');
+      typeDetailOverlay.setAttribute('aria-hidden', 'true');
+    }
+
+    function openTypeDetail(code) {
+      const type = TYPE_LIBRARY[code];
+      if (!type) return;
+
+      const typeCopy = getTypeCopy(type);
+      const detailName = document.getElementById('detailName');
+      const detailIntro = document.getElementById('detailIntro');
+      const detailDesc = document.getElementById('detailDesc');
+      const detailPosterImage = document.getElementById('detailPosterImage');
+      const detailDimGrid = document.getElementById('detailDimGrid');
+      const pattern = getTypePattern(code);
+
+      detailName.textContent = formatDisplayName(type);
+      detailIntro.textContent = typeCopy.intro || '';
+      detailDesc.textContent = typeCopy.desc || '';
+
+      if (TYPE_IMAGES[code]) {
+        detailPosterImage.src = TYPE_IMAGES[code];
+        detailPosterImage.alt = formatDisplayName(type);
+        detailPosterImage.style.display = '';
+      } else {
+        detailPosterImage.removeAttribute('src');
+        detailPosterImage.alt = '';
+        detailPosterImage.style.display = 'none';
+      }
+
+      if (pattern) {
+        detailDimGrid.innerHTML = dimensionOrder.map((dim, index) => `
+          <div class="detail-dim-pill">
+            <div class="label">${escapeHtml(dimensionMeta[dim].name)}</div>
+            <div class="value">${escapeHtml(pattern[index])}</div>
+          </div>
+        `).join('');
+      } else {
+        detailDimGrid.innerHTML = `<div class="history-empty">${escapeHtml(app.lang === 'en' ? 'This type uses a special route and has no standard 15-dimension pattern.' : '这个人格走的是特殊路径，没有标准的 15 维模式。')}</div>`;
+      }
+
+      typeDetailOverlay.classList.add('show');
+      typeDetailOverlay.setAttribute('aria-hidden', 'false');
     }
 
     function showScreen(name) {
@@ -2617,6 +2894,17 @@
     document.getElementById('submitBtn').addEventListener('click', () => renderResult());
     document.getElementById('restartBtn').addEventListener('click', () => startTest(false));
     document.getElementById('toTopBtn').addEventListener('click', () => showScreen('intro'));
+    document.getElementById('detailCloseBtn').addEventListener('click', closeTypeDetail);
+    document.getElementById('detailCloseBtnSecondary').addEventListener('click', closeTypeDetail);
+    document.getElementById('detailStartBtn').addEventListener('click', () => {
+      closeTypeDetail();
+      startTest(false);
+    });
+    typeDetailOverlay.addEventListener('click', (event) => {
+      if (event.target === typeDetailOverlay) {
+        closeTypeDetail();
+      }
+    });
 
     /* ========== 分享功能 ========== */
     let lastResult = null;
