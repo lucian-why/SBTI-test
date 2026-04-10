@@ -141,6 +141,90 @@
       margin-top: 28px;
     }
 
+    .types-section {
+      margin-top: 32px;
+    }
+
+    .types-title {
+      font-size: clamp(22px, 4vw, 32px);
+      letter-spacing: -0.02em;
+    }
+
+    .types-subtitle {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .types-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .type-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff, #fbfdfb);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .type-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(47, 73, 55, 0.12);
+    }
+
+    .type-card-img {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(127, 165, 134, 0.1), rgba(127, 165, 134, 0) 48%),
+        #f8fcf9;
+    }
+
+    .type-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .type-card-body {
+      flex: 1;
+      padding: 14px;
+    }
+
+    .type-card-code {
+      color: var(--accent-strong);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .type-card-cn {
+      margin-top: 2px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .type-card-intro {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
     button {
       border: 0;
       cursor: pointer;
@@ -725,6 +809,98 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+
+    .hero-status {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .history-wrap {
+      margin-top: 22px;
+      padding: 22px;
+    }
+
+    .history-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .history-head p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      margin-top: 8px;
+    }
+
+    .history-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .history-empty {
+      padding: 20px;
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff, #fbfdfb);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .history-item {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(180deg, #ffffff, #fbfdfb);
+      display: grid;
+      gap: 12px;
+    }
+
+    .history-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .history-item-top strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .history-item-time {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .history-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .history-item-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
     @media (max-width: 860px) {
       .result-top { grid-template-columns: 1fr; }
     }
@@ -739,9 +915,10 @@
 
     @media (max-width: 600px) {
       .shell { padding: 14px 12px 42px; }
-      .hero, .test-wrap, .result-wrap { padding: 16px; }
+      .hero, .test-wrap, .result-wrap, .history-wrap { padding: 16px; }
       .hero h1 { font-size: 32px; }
       .question-title { font-size: 15px; }
+      .types-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
       .dim-grid,
       .score-grid { grid-template-columns: 1fr; }
     }
@@ -750,12 +927,62 @@
 <body>
   <div class="shell">
     <section id="intro" class="screen active">
-      <div class="hero card hero-minimal">
-        <h1>MBTI已经过时，SBTI来了。</h1>
-        <div class="hero-actions hero-actions-single">
+      <div class="hero card">
+        <div class="eyebrow" id="heroEyebrow">SBTI 人格测试 · 娱乐向</div>
+        <h1 id="heroTitle">你是哪种人格？</h1>
+        <p class="sub" id="heroSub">30 道主线题 + 隐藏支线，五大模型十五维度交叉分析，为你匹配最贴合的人格标签。测试仅供娱乐，请勿当真。</p>
+
+        <div class="hero-grid">
+          <div class="mini-panel">
+            <h3 id="modelsTitle">五大模型</h3>
+            <ul id="modelsList">
+              <li>自我模型：自尊自信 / 自我清晰度 / 核心价值</li>
+              <li>情感模型：依恋安全感 / 情感投入度 / 边界与依赖</li>
+              <li>态度模型：世界观倾向 / 规则与灵活度 / 人生意义感</li>
+              <li>行动驱力模型：动机导向 / 决策风格 / 执行模式</li>
+              <li>社交模型：社交主动性 / 人际边界感 / 表达与真实度</li>
+            </ul>
+          </div>
+
+          <div class="mini-panel">
+            <h3 id="aboutTitle">关于测试</h3>
+            <ul id="aboutList">
+              <li>约 31 题，5-8 分钟</li>
+              <li>含 1 道隐藏支线触发题</li>
+              <li>题目每次随机排列</li>
+              <li>纯前端计算，不上传数据</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="hero-actions">
           <button id="startBtn" class="btn-primary">开始测试</button>
+          <button id="historyEntryBtn" class="btn-secondary">查看历史结果</button>
+          <button id="langToggleBtn" class="btn-secondary">English</button>
         </div>
+        <p id="historySummary" class="hero-status">还没有保存过测试结果，做完一次测试后会自动记录在当前设备里。</p>
+      </div>
+
+      <section class="types-section">
+        <h2 class="types-title" id="galleryTitle">全部人格图鉴</h2>
+        <p class="types-subtitle" id="gallerySub">共 27 种人格，首页先看一遍风格，再决定要不要开始测试。</p>
+        <div id="typesGrid" class="types-grid"></div>
+      </section>
+    </section>
+
+    <section id="history" class="screen">
+      <div class="history-wrap card">
+        <div class="history-head">
+          <div>
+            <h2 id="historyTitle">我的测试记录</h2>
+            <p id="historyIntro">测试结果会保存在当前浏览器的本地存储里。清理浏览器缓存或更换设备后，记录不会自动同步。</p>
+          </div>
+          <div class="history-actions">
+            <button id="backHomeFromHistoryBtn" class="btn-secondary">回到首页</button>
+            <button id="clearHistoryBtn" class="btn-secondary">清空记录</button>
+          </div>
         </div>
+        <div id="historyList" class="history-list"></div>
       </div>
     </section>
 
@@ -769,7 +996,7 @@
         <div id="questionList" class="question-list"></div>
 
         <div class="actions-bottom">
-          <div class="hint" id="testHint">全选完才会放行。世界已经够乱了，起码把题做完整。</div>
+          <div class="hint" id="testHint">随时可以提交，未答题目将按中间值计算。</div>
           <div style="display:flex; gap:12px; flex-wrap:wrap;">
             <button id="backIntroBtn" class="btn-secondary">返回首页</button>
             <button id="submitBtn" class="btn-primary" disabled>提交并查看结果</button>
@@ -797,22 +1024,22 @@
           </div>
 
           <div class="analysis-box">
-            <h3>该人格的简单解读</h3>
+            <h3 id="resultAnalysisTitle">该人格的简单解读</h3>
             <p id="resultDesc"></p>
           </div>
 
           <div class="dim-box">
-            <h3>十五维度评分</h3>
+            <h3 id="resultDimensionsTitle">十五维度评分</h3>
             <div id="dimList" class="dim-list"></div>
           </div>
 
           <div class="note-box">
-            <h3>友情提示</h3>
+            <h3 id="resultNoteTitle">友情提示</h3>
             <p id="funNote">本测试仅供娱乐，别拿它当诊断、面试、相亲、分手、招魂、算命或人生判决书。</p>
           </div>
 
           <div class="share-section">
-            <h3>分享你的测试结果</h3>
+            <h3 id="shareTitle">分享你的测试结果</h3>
             <div class="share-buttons">
               <button class="btn-share" id="copyTextBtn"><span class="icon">📋</span>复制结果</button>
               <button class="btn-share" id="downloadImageBtn"><span class="icon">🖼️</span>保存图片</button>
@@ -823,10 +1050,10 @@
           </div>
 
                     <details class="author-box">
-            <summary>关于本测试</summary>
+            <summary id="aboutTestSummary">关于本测试</summary>
             <div class="author-content">
-              <p>本测试仅供娱乐，请勿用于任何严肃场合。测试结果不代表任何心理学或医学诊断。</p>
-              <p>如有冒犯之处，敬请谅解，纯属娱乐性质。</p>
+              <p id="aboutTestP1">本测试仅供娱乐，请勿用于任何严肃场合。测试结果不代表任何心理学或医学诊断。</p>
+              <p id="aboutTestP2">如有冒犯之处，敬请谅解，纯属娱乐性质。</p>
             </div>
           </details>
         </div>
@@ -1534,15 +1761,193 @@
     const dimensionOrder = ['S1','S2','S3','E1','E2','E3','A1','A2','A3','Ac1','Ac2','Ac3','So1','So2','So3'];
 
     const DRUNK_TRIGGER_QUESTION_ID = 'drink_gate_q2';
+    const RESULT_STORAGE_KEY = 'sbti-result-history';
+    const RESULT_STORAGE_LIMIT = 50;
+    const LANG_STORAGE_KEY = 'sbti-language';
+
+    const TYPE_EN_NAMES = {
+      "CTRL": "Controller",
+      "ATM-er": "Giver",
+      "Dior-s": "Doomer",
+      "BOSS": "Leader",
+      "THAN-K": "Grateful One",
+      "OH-NO": "Oh-No Person",
+      "GOGO": "Go-Getter",
+      "SEXY": "Charmer",
+      "LOVE-R": "Romantic",
+      "MUM": "Caretaker",
+      "FAKE": "Shapeshifter",
+      "OJBK": "Whatever Person",
+      "MALO": "Monkey Mind",
+      "JOKE-R": "Joker",
+      "WOC!": "Shockwave",
+      "THIN-K": "Thinker",
+      "SHIT": "Chaos Agent",
+      "ZZZZ": "Sleeper",
+      "POOR": "Struggler",
+      "MONK": "Monk",
+      "IMSB": "Soft Baby",
+      "SOLO": "Loner",
+      "FUCK": "Rebel",
+      "DEAD": "Burnout",
+      "IMFW": "Unbothered",
+      "HHHH": "Unknown Form",
+      "DRUNK": "Drunk"
+    };
+
+    const I18N = {
+      zh: {
+        heroEyebrow: 'SBTI 人格测试 · 娱乐向',
+        heroTitle: '你是哪种人格？',
+        heroSub: '30 道主线题 + 隐藏支线，五大模型十五维度交叉分析，为你匹配最贴合的人格标签。测试仅供娱乐，请勿当真。',
+        modelsTitle: '五大模型',
+        modelsList: [
+          '自我模型：自尊自信 / 自我清晰度 / 核心价值',
+          '情感模型：依恋安全感 / 情感投入度 / 边界与依赖',
+          '态度模型：世界观倾向 / 规则与灵活度 / 人生意义感',
+          '行动驱力模型：动机导向 / 决策风格 / 执行模式',
+          '社交模型：社交主动性 / 人际边界感 / 表达与真实度'
+        ],
+        aboutTitle: '关于测试',
+        aboutList: [
+          '约 31 题，5-8 分钟',
+          '含 1 道隐藏支线触发题',
+          '题目每次随机排列',
+          '纯前端计算，不上传数据'
+        ],
+        startBtn: '开始测试',
+        historyEntryBtn: '查看历史结果',
+        langToggleBtn: 'English',
+        historySummaryEmpty: '还没有保存过测试结果，做完一次测试后会自动记录在当前设备里。',
+        historySummaryCount: (count) => `当前设备里已保存 ${count} 条测试结果，可以随时回来看。`,
+        galleryTitle: '全部人格图鉴',
+        gallerySub: '共 27 种人格，首页先看一遍风格，再决定要不要开始测试。',
+        historyTitle: '我的测试记录',
+        historyIntro: '测试结果会保存在当前浏览器的本地存储里。清理浏览器缓存或更换设备后，记录不会自动同步。',
+        backHomeFromHistoryBtn: '回到首页',
+        clearHistoryBtn: '清空记录',
+        historyEmpty: '还没有历史结果，先去做一次测试吧。',
+        savedBadge: '已保存',
+        viewDetails: '查看详情',
+        deleteRecord: '删除',
+        testHintIncomplete: '随时可以提交，未答题目将按中间值计算。',
+        testHintComplete: '都做完了，结果会更准确哦！',
+        backIntroBtn: '返回首页',
+        submitBtn: '提交并查看结果',
+        resultAnalysisTitle: '该人格的简单解读',
+        resultDimensionsTitle: '十五维度评分',
+        resultNoteTitle: '友情提示',
+        shareTitle: '分享你的测试结果',
+        copyTextBtn: '复制结果',
+        downloadImageBtn: '保存图片',
+        shareWechatBtn: '微信',
+        shareWeiboBtn: '微博',
+        aboutTestSummary: '关于本测试',
+        aboutTestP1: '本测试仅供娱乐，请勿用于任何严肃场合。测试结果不代表任何心理学或医学诊断。',
+        aboutTestP2: '如有冒犯之处，敬请谅解，纯属娱乐性质。',
+        restartBtn: '重新测试',
+        toTopBtn: '回到首页',
+        questionNumber: (index) => `第 ${index} 题`,
+        extraQuestion: '补充题',
+        hiddenDimension: '维度已隐藏',
+        resultModeKicker: '你的主类型',
+        resultSubFallback: '系统备注会显示在这里。',
+        resultFunNoteNormal: '本测试仅供娱乐，别拿它当诊断、面试、相亲、分手、招魂、算命或人生判决书。你可以笑，但别太当真。',
+        resultFunNoteSpecial: '本测试仅供娱乐。隐藏人格和傻乐兜底都属于作者故意埋的损招，请勿把它当成医学、心理学、相学、命理学或灵异学依据。',
+        dimensionsCardTitle: '十五维度评分',
+        pointsUnit: '分'
+      },
+      en: {
+        heroEyebrow: 'SBTI Personality Test · For Fun',
+        heroTitle: 'What type are you?',
+        heroSub: '30 core questions plus hidden branches. Five models and fifteen dimensions combine to match you with the closest personality label. Just for fun.',
+        modelsTitle: 'Five Models',
+        modelsList: [
+          'Self: self-esteem / self-clarity / core values',
+          'Emotion: attachment security / emotional investment / boundaries and dependence',
+          'Attitude: worldview / rules and flexibility / sense of meaning',
+          'Drive: motivation / decision style / execution pattern',
+          'Social: initiative / interpersonal boundaries / expression and authenticity'
+        ],
+        aboutTitle: 'About This Test',
+        aboutList: [
+          'About 31 questions, 5-8 minutes',
+          'Includes 1 hidden branch trigger question',
+          'Questions are shuffled every time',
+          'Pure front-end calculation, no upload'
+        ],
+        startBtn: 'Start Test',
+        historyEntryBtn: 'View History',
+        langToggleBtn: '中文',
+        historySummaryEmpty: 'No saved results on this device yet. Your first completed result will be stored locally.',
+        historySummaryCount: (count) => `${count} saved result${count === 1 ? '' : 's'} on this device.`,
+        galleryTitle: 'All Personality Cards',
+        gallerySub: 'There are 27 types. Preview the vibe first, then decide whether to take the test.',
+        historyTitle: 'My Test History',
+        historyIntro: 'Results are stored in this browser only. They will not sync across devices and may disappear if local data is cleared.',
+        backHomeFromHistoryBtn: 'Back Home',
+        clearHistoryBtn: 'Clear History',
+        historyEmpty: 'No history yet. Take the test first.',
+        savedBadge: 'Saved',
+        viewDetails: 'View',
+        deleteRecord: 'Delete',
+        testHintIncomplete: 'You can submit anytime. Unanswered questions will use midpoint values.',
+        testHintComplete: 'All done. Your result should be more accurate now.',
+        backIntroBtn: 'Back Home',
+        submitBtn: 'Submit & View Result',
+        resultAnalysisTitle: 'Quick Read',
+        resultDimensionsTitle: '15-Dimension Scores',
+        resultNoteTitle: 'Friendly Note',
+        shareTitle: 'Share Your Result',
+        copyTextBtn: 'Copy Text',
+        downloadImageBtn: 'Save Image',
+        shareWechatBtn: 'WeChat',
+        shareWeiboBtn: 'Weibo',
+        aboutTestSummary: 'About This Test',
+        aboutTestP1: 'This test is for fun only. It is not a psychological or medical diagnosis.',
+        aboutTestP2: 'If anything feels offensive, please treat it as entertainment.',
+        restartBtn: 'Retake',
+        toTopBtn: 'Back Home',
+        questionNumber: (index) => `Question ${index}`,
+        extraQuestion: 'Bonus',
+        hiddenDimension: 'Dimension Hidden',
+        resultModeKicker: 'Your Main Type',
+        resultSubFallback: 'System note will appear here.',
+        resultFunNoteNormal: 'This test is for fun only. Please do not treat it as a diagnosis or serious life advice.',
+        resultFunNoteSpecial: 'This test is for fun only. Hidden types and fallback jokes are intentional easter eggs.',
+        dimensionsCardTitle: '15-Dimension Scores',
+        pointsUnit: 'pts'
+      }
+    };
+
+    const DIMENSION_LABELS = {
+      zh: {
+        S1: 'S1 自尊自信', S2: 'S2 自我清晰度', S3: 'S3 核心价值',
+        E1: 'E1 依恋安全感', E2: 'E2 情感投入度', E3: 'E3 边界与依赖',
+        A1: 'A1 世界观倾向', A2: 'A2 规则与灵活度', A3: 'A3 人生意义感',
+        Ac1: 'Ac1 动机导向', Ac2: 'Ac2 决策风格', Ac3: 'Ac3 执行模式',
+        So1: 'So1 社交主动性', So2: 'So2 人际边界感', So3: 'So3 表达与真实度'
+      },
+      en: {
+        S1: 'S1 Self-esteem', S2: 'S2 Self-clarity', S3: 'S3 Core values',
+        E1: 'E1 Attachment security', E2: 'E2 Emotional investment', E3: 'E3 Boundaries & dependence',
+        A1: 'A1 Worldview', A2: 'A2 Rules & flexibility', A3: 'A3 Sense of meaning',
+        Ac1: 'Ac1 Motivation', Ac2: 'Ac2 Decision style', Ac3: 'Ac3 Execution pattern',
+        So1: 'So1 Social initiative', So2: 'So2 Interpersonal boundaries', So3: 'So3 Expression & authenticity'
+      }
+    };
 
     const app = {
       shuffledQuestions: [],
       answers: {},
-      previewMode: false
+      previewMode: false,
+      history: [],
+      lang: localStorage.getItem(LANG_STORAGE_KEY) || 'zh'
     };
 
     const screens = {
       intro: document.getElementById('intro'),
+      history: document.getElementById('history'),
       test: document.getElementById('test'),
       result: document.getElementById('result')
     };
@@ -1552,6 +1957,228 @@
     const progressText = document.getElementById('progressText');
     const submitBtn = document.getElementById('submitBtn');
     const testHint = document.getElementById('testHint');
+    const historyList = document.getElementById('historyList');
+    const historySummary = document.getElementById('historySummary');
+    const typesGrid = document.getElementById('typesGrid');
+    const langToggleBtn = document.getElementById('langToggleBtn');
+
+    function t(key, ...args) {
+      const dict = I18N[app.lang] || I18N.zh;
+      const value = dict[key];
+      return typeof value === 'function' ? value(...args) : value;
+    }
+
+    function setListContent(id, items) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = items.map((item) => `<li>${escapeHtml(item)}</li>`).join('');
+    }
+
+    function applyStaticTranslations() {
+      const mapping = {
+        heroEyebrow: 'heroEyebrow',
+        heroTitle: 'heroTitle',
+        heroSub: 'heroSub',
+        modelsTitle: 'modelsTitle',
+        aboutTitle: 'aboutTitle',
+        startBtn: 'startBtn',
+        historyEntryBtn: 'historyEntryBtn',
+        langToggleBtn: 'langToggleBtn',
+        galleryTitle: 'galleryTitle',
+        gallerySub: 'gallerySub',
+        historyTitle: 'historyTitle',
+        historyIntro: 'historyIntro',
+        backHomeFromHistoryBtn: 'backHomeFromHistoryBtn',
+        clearHistoryBtn: 'clearHistoryBtn',
+        backIntroBtn: 'backIntroBtn',
+        submitBtn: 'submitBtn',
+        resultAnalysisTitle: 'resultAnalysisTitle',
+        resultDimensionsTitle: 'resultDimensionsTitle',
+        resultNoteTitle: 'resultNoteTitle',
+        shareTitle: 'shareTitle',
+        aboutTestSummary: 'aboutTestSummary',
+        aboutTestP1: 'aboutTestP1',
+        aboutTestP2: 'aboutTestP2',
+        restartBtn: 'restartBtn',
+        toTopBtn: 'toTopBtn'
+      };
+
+      Object.entries(mapping).forEach(([id, key]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = t(key);
+      });
+
+      const iconButtons = {
+        copyTextBtn: '📋',
+        downloadImageBtn: '🖼️',
+        shareWechatBtn: '💬',
+        shareWeiboBtn: '📢'
+      };
+      Object.entries(iconButtons).forEach(([id, icon]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = `<span class="icon">${icon}</span>${escapeHtml(t(id))}`;
+      });
+
+      setListContent('modelsList', t('modelsList'));
+      setListContent('aboutList', t('aboutList'));
+      Object.entries(DIMENSION_LABELS[app.lang]).forEach(([key, value]) => {
+        if (dimensionMeta[key]) {
+          dimensionMeta[key].name = value;
+        }
+      });
+      updateHistorySummary();
+      updateProgress();
+    }
+
+    function setLanguage(lang) {
+      app.lang = lang === 'en' ? 'en' : 'zh';
+      localStorage.setItem(LANG_STORAGE_KEY, app.lang);
+      document.documentElement.lang = app.lang === 'en' ? 'en' : 'zh-CN';
+      applyStaticTranslations();
+      renderTypeGallery();
+      renderHistory();
+      if (screens.test.classList.contains('active')) {
+        renderQuestions();
+      }
+      if (screens.result.classList.contains('active') && lastResult) {
+        renderResult(lastResult, { persist: false });
+      }
+    }
+
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[char]));
+    }
+
+    function formatHistoryTime(timestamp) {
+      const date = new Date(timestamp);
+      if (Number.isNaN(date.getTime())) return '时间未知';
+      return date.toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function saveHistory() {
+      localStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify(app.history));
+    }
+
+    function loadHistory() {
+      try {
+        const raw = localStorage.getItem(RESULT_STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        app.history = Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        app.history = [];
+      }
+    }
+
+    function updateHistorySummary() {
+      const count = app.history.length;
+      historySummary.textContent = count
+        ? t('historySummaryCount', count)
+        : t('historySummaryEmpty');
+    }
+
+    function renderTypeGallery() {
+      const galleryCodes = [...new Set([...NORMAL_TYPES.map((item) => item.code), 'HHHH', 'DRUNK'])];
+      typesGrid.innerHTML = galleryCodes.map((code) => {
+        const type = TYPE_LIBRARY[code];
+        if (!type) return '';
+        const imageSrc = TYPE_IMAGES[code] || '';
+        const displayName = app.lang === 'en'
+          ? `${type.code} (${TYPE_EN_NAMES[type.code] || type.cn})`
+          : `${type.code}（${type.cn}）`;
+        const intro = app.lang === 'en'
+          ? `Tap to explore ${TYPE_EN_NAMES[type.code] || type.code}.`
+          : (type.intro || '');
+        return `
+          <article class="type-card">
+            <div class="type-card-img">
+              ${imageSrc ? `<img src="${imageSrc}" alt="${escapeHtml(displayName)}" />` : ''}
+            </div>
+            <div class="type-card-body">
+              <div class="type-card-code">${escapeHtml(type.code)}</div>
+              <div class="type-card-cn">${escapeHtml(displayName)}</div>
+              <div class="type-card-intro">${escapeHtml(intro)}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function createHistoryRecord(result) {
+      return {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        createdAt: new Date().toISOString(),
+        result
+      };
+    }
+
+    function persistResult(result) {
+      app.history.unshift(createHistoryRecord(result));
+      app.history = app.history.slice(0, RESULT_STORAGE_LIMIT);
+      saveHistory();
+      updateHistorySummary();
+    }
+
+    function renderHistory() {
+      updateHistorySummary();
+
+      if (!app.history.length) {
+        historyList.innerHTML = `<div class="history-empty">${escapeHtml(t('historyEmpty'))}</div>`;
+        return;
+      }
+
+      historyList.innerHTML = app.history.map((item) => {
+        const type = item.result && item.result.finalType ? item.result.finalType : null;
+        const title = type ? `${type.code}（${type.cn}）` : '历史结果';
+        const badge = item.result && item.result.badge ? item.result.badge : '暂无摘要';
+        const sub = item.result && item.result.sub ? item.result.sub : '暂无说明';
+        return `
+          <article class="history-item" data-history-id="${item.id}">
+            <div class="history-item-top">
+              <div>
+                <strong>${escapeHtml(title)}</strong>
+                <div class="history-item-time">${escapeHtml(formatHistoryTime(item.createdAt))}</div>
+              </div>
+              <div class="badge">${escapeHtml(t('savedBadge'))}</div>
+            </div>
+            <p>${escapeHtml(badge)}</p>
+            <p>${escapeHtml(sub)}</p>
+            <div class="history-item-actions">
+              <button class="btn-primary" data-action="view-history" data-history-id="${item.id}">${escapeHtml(t('viewDetails'))}</button>
+              <button class="btn-secondary" data-action="delete-history" data-history-id="${item.id}">${escapeHtml(t('deleteRecord'))}</button>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      historyList.querySelectorAll('[data-action="view-history"]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const record = app.history.find((item) => item.id === button.dataset.historyId);
+          if (!record) return;
+          renderResult(record.result, { persist: false });
+        });
+      });
+
+      historyList.querySelectorAll('[data-action="delete-history"]').forEach((button) => {
+        button.addEventListener('click', () => {
+          app.history = app.history.filter((item) => item.id !== button.dataset.historyId);
+          saveHistory();
+          renderHistory();
+        });
+      });
+    }
 
     function showScreen(name) {
       Object.entries(screens).forEach(([key, el]) => {
@@ -1579,8 +2206,8 @@
     }
 
     function getQuestionMetaLabel(q) {
-      if (q.special) return '补充题';
-      return app.previewMode ? dimensionMeta[q.dim].name : '维度已隐藏';
+      if (q.special) return t('extraQuestion');
+      return app.previewMode ? dimensionMeta[q.dim].name : t('hiddenDimension');
     }
 
     function renderQuestions() {
@@ -1591,7 +2218,7 @@
         card.className = 'question';
         card.innerHTML = `
           <div class="question-meta">
-            <div class="badge">第 ${index + 1} 题</div>
+            <div class="badge">${t('questionNumber', index + 1)}</div>
             <div>${getQuestionMetaLabel(q)}</div>
           </div>
           <div class="question-title">${q.text}</div>
@@ -1640,10 +2267,10 @@
       progressBar.style.width = `${percent}%`;
       progressText.textContent = `${done} / ${total}`;
       const complete = done === total && total > 0;
-      submitBtn.disabled = !complete;
+      submitBtn.disabled = false;
       testHint.textContent = complete
-        ? '都做完了。现在可以把你的电子魂魄交给结果页审判。'
-        : '全选完才会放行。世界已经够乱了，起码把题做完整。';
+        ? t('testHintComplete')
+        : t('testHintIncomplete');
     }
 
     function sumToLevel(score) {
@@ -1745,7 +2372,7 @@
           <div class="dim-item">
             <div class="dim-item-top">
               <div class="dim-item-name">${dimensionMeta[dim].name}</div>
-              <div class="dim-item-score">${level} / ${result.rawScores[dim]}分</div>
+              <div class="dim-item-score">${level} / ${result.rawScores[dim]}${t('pointsUnit')}</div>
             </div>
             <p>${explanation}</p>
           </div>
@@ -1753,20 +2380,28 @@
       }).join('');
     }
 
-    function renderResult() {
-      const result = computeResult();
+    function renderResult(result = computeResult(), options = {}) {
+      const { persist = true } = options;
       lastResult = result;
+      if (persist) {
+        persistResult(result);
+      }
       const type = result.finalType;
+      const displayName = app.lang === 'en'
+        ? `${type.code} (${TYPE_EN_NAMES[type.code] || type.cn})`
+        : `${type.code}（${type.cn}）`;
 
-      document.getElementById('resultModeKicker').textContent = result.modeKicker;
-      document.getElementById('resultTypeName').textContent = `${type.code}（${type.cn}）`;
+      document.getElementById('resultModeKicker').textContent = app.lang === 'en' ? t('resultModeKicker') : result.modeKicker;
+      document.getElementById('resultTypeName').textContent = displayName;
       document.getElementById('matchBadge').textContent = result.badge;
-      document.getElementById('resultTypeSub').textContent = result.sub;
+      document.getElementById('resultTypeSub').textContent = app.lang === 'en' ? t('resultSubFallback') : result.sub;
       document.getElementById('resultDesc').textContent = type.desc;
-      document.getElementById('posterCaption').textContent = type.intro;
+      document.getElementById('posterCaption').textContent = app.lang === 'en'
+        ? (TYPE_EN_NAMES[type.code] || type.code)
+        : type.intro;
       document.getElementById('funNote').textContent = result.special
-        ? '本测试仅供娱乐。隐藏人格和傻乐兜底都属于作者故意埋的损招，请勿把它当成医学、心理学、相学、命理学或灵异学依据。'
-        : '本测试仅供娱乐，别拿它当诊断、面试、相亲、分手、招魂、算命或人生判决书。你可以笑，但别太当真。';
+        ? t('resultFunNoteSpecial')
+        : t('resultFunNoteNormal');
 
       const posterBox = document.getElementById('posterBox');
       const posterImage = document.getElementById('posterImage');
@@ -1799,9 +2434,33 @@
       showScreen('test');
     }
 
+    loadHistory();
+    renderHistory();
+    renderTypeGallery();
+    applyStaticTranslations();
+
     document.getElementById('startBtn').addEventListener('click', () => startTest(false));
+    document.getElementById('historyEntryBtn').addEventListener('click', () => {
+      renderHistory();
+      showScreen('history');
+    });
+    langToggleBtn.addEventListener('click', () => setLanguage(app.lang === 'en' ? 'zh' : 'en'));
+    document.getElementById('backHomeFromHistoryBtn').addEventListener('click', () => showScreen('intro'));
+    document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+      if (!app.history.length) {
+        showToast('还没有可清空的记录。');
+        return;
+      }
+      if (!window.confirm('确定要清空当前设备上的全部测试记录吗？')) {
+        return;
+      }
+      app.history = [];
+      saveHistory();
+      renderHistory();
+      showToast('历史记录已清空。');
+    });
     document.getElementById('backIntroBtn').addEventListener('click', () => showScreen('intro'));
-    document.getElementById('submitBtn').addEventListener('click', renderResult);
+    document.getElementById('submitBtn').addEventListener('click', () => renderResult());
     document.getElementById('restartBtn').addEventListener('click', () => startTest(false));
     document.getElementById('toTopBtn').addEventListener('click', () => showScreen('intro'));
 
@@ -1816,7 +2475,10 @@
         const level = lastResult.levels[dim];
         return `${name}: ${level}`;
       }).join('\n');
-      return `我的SBTI人格是 ${type.code}（${type.cn}）\n${lastResult.badge}\n\n${type.intro}\n\n十五维度：\n${dimText}\n\n来测测你的人格 → ${location.href}`;
+      if (app.lang === 'en') {
+        return `My SBTI type is ${type.code} (${TYPE_EN_NAMES[type.code] || type.cn})\n${lastResult.badge}\n\nVisit sbti.team to test yours.\n\n15 dimensions:\n${dimText}\n\nsbti.team`;
+      }
+      return `我的SBTI人格是 ${type.code}（${type.cn}）\n${lastResult.badge}\n\n${type.intro}\n\n十五维度：\n${dimText}\n\n来测测你的人格 → sbti.team`;
     }
 
     function showToast(msg) {
@@ -1829,6 +2491,163 @@
       toast.textContent = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function loadImageForCanvas(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    async function generateSharePoster() {
+      const type = lastResult.finalType;
+      const imageSrc = TYPE_IMAGES[type.code];
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const W = 750;
+      const H = 1000;
+      const canvas = document.createElement('canvas');
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+      bgGrad.addColorStop(0, '#f8fff8');
+      bgGrad.addColorStop(0.5, '#f2f7f3');
+      bgGrad.addColorStop(1, '#edf6ef');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.fillStyle = 'rgba(108, 141, 113, 0.08)';
+      ctx.beginPath();
+      ctx.arc(W - 60, 60, 120, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(70, H - 80, 120, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = 'rgba(255,255,255,0.94)';
+      roundRect(ctx, 30, 30, W - 60, H - 60, 28);
+      ctx.fill();
+      ctx.strokeStyle = '#dbe8dd';
+      ctx.lineWidth = 1;
+      roundRect(ctx, 30, 30, W - 60, H - 60, 28);
+      ctx.stroke();
+
+      const displayName = app.lang === 'en'
+        ? (TYPE_EN_NAMES[type.code] || type.cn)
+        : type.cn;
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#4d6a53';
+      ctx.font = 'bold 22px "PingFang SC", "Microsoft YaHei", sans-serif';
+      ctx.fillText(app.lang === 'en' ? 'SBTI Personality Result' : 'SBTI 人格测试结果', W / 2, 78);
+
+      ctx.fillStyle = '#6a786f';
+      ctx.font = '18px "PingFang SC", "Microsoft YaHei", sans-serif';
+      ctx.fillText(app.lang === 'en' ? 'Your type is' : '你的人格类型是', W / 2, 118);
+
+      ctx.fillStyle = '#1e2a22';
+      ctx.font = 'bold 56px "PingFang SC", "Microsoft YaHei", sans-serif';
+      ctx.fillText(displayName, W / 2, 192);
+
+      ctx.fillStyle = '#58a05a';
+      ctx.font = 'bold 40px "PingFang SC", "Microsoft YaHei", sans-serif';
+      ctx.fillText(type.code, W / 2, 244);
+
+      const posterX = 78;
+      const posterY = 276;
+      const posterW = W - 156;
+      const posterH = 340;
+      ctx.fillStyle = '#fdfefd';
+      roundRect(ctx, posterX, posterY, posterW, posterH, 22);
+      ctx.fill();
+
+      if (imageSrc) {
+        try {
+          const portrait = await loadImageForCanvas(imageSrc);
+          const ratio = Math.min((posterW - 40) / portrait.width, (posterH - 36) / portrait.height);
+          const drawW = portrait.width * ratio;
+          const drawH = portrait.height * ratio;
+          const drawX = posterX + (posterW - drawW) / 2;
+          const drawY = posterY + (posterH - drawH) / 2;
+          ctx.drawImage(portrait, drawX, drawY, drawW, drawH);
+        } catch (error) {
+          ctx.fillStyle = '#6a786f';
+          ctx.font = '16px "PingFang SC", "Microsoft YaHei", sans-serif';
+          ctx.fillText(app.lang === 'en' ? 'Portrait failed to load' : '人物图片加载失败', W / 2, posterY + posterH / 2);
+        }
+      }
+
+      ctx.fillStyle = '#4d6a53';
+      ctx.font = 'bold 18px "PingFang SC", "Microsoft YaHei", sans-serif';
+      ctx.fillText(lastResult.badge, W / 2, 650);
+
+      ctx.fillStyle = '#6a786f';
+      ctx.font = '18px "PingFang SC", "Microsoft YaHei", sans-serif';
+      ctx.fillText(app.lang === 'en' ? (TYPE_EN_NAMES[type.code] || type.code) : type.intro, W / 2, 686);
+
+      const cardY = 724;
+      const cardH = 190;
+      ctx.fillStyle = '#ffffff';
+      roundRect(ctx, 30, cardY, W - 60, cardH, 18);
+      ctx.fill();
+      ctx.strokeStyle = '#dbe8dd';
+      ctx.lineWidth = 1;
+      roundRect(ctx, 30, cardY, W - 60, cardH, 18);
+      ctx.stroke();
+
+      ctx.fillStyle = '#1e2a22';
+      ctx.font = 'bold 20px "PingFang SC", "Microsoft YaHei", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(app.lang === 'en' ? '15-Dimension Scores' : '十五维度评分', 60, cardY + 34);
+
+      const barStartY = cardY + 50;
+      const barH = 8;
+      const barGap = 4;
+      const barW = W - 160;
+      dimensionOrder.forEach((dim, i) => {
+        const y = barStartY + i * (barH + barGap);
+        const raw = lastResult.rawScores[dim];
+        const pct = raw / 6;
+
+        ctx.fillStyle = '#1e2a22';
+        ctx.font = '12px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(dimensionMeta[dim].name, 60, y + 10);
+
+        ctx.fillStyle = '#edf3ee';
+        roundRect(ctx, 150, y + 2, barW, barH, 4);
+        ctx.fill();
+
+        const fillW = Math.max(barW * pct, 0);
+        if (fillW > 0) {
+          const fillGrad = ctx.createLinearGradient(150, 0, 150 + fillW, 0);
+          fillGrad.addColorStop(0, '#97b59c');
+          fillGrad.addColorStop(1, '#5b7a62');
+          ctx.fillStyle = fillGrad;
+          roundRect(ctx, 150, y + 2, fillW, barH, 4);
+          ctx.fill();
+        }
+
+        ctx.fillStyle = '#4d6a53';
+        ctx.font = 'bold 12px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(`${lastResult.levels[dim]}`, W - 60, y + 10);
+      });
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#6a786f';
+      ctx.font = '16px "PingFang SC", "Microsoft YaHei", sans-serif';
+      ctx.fillText(app.lang === 'en' ? 'Take the test at sbti.team' : '来 sbti.team 测测你的人格', W / 2, H - 52);
+      ctx.fillStyle = '#4d6a53';
+      ctx.font = 'bold 24px "PingFang SC", "Microsoft YaHei", sans-serif';
+      ctx.fillText('sbti.team', W / 2, H - 22);
+
+      return canvas;
     }
 
     function generateShareImage() {
@@ -1987,7 +2806,7 @@
 
     // 下载图片
     document.getElementById('downloadImageBtn').addEventListener('click', async () => {
-      const canvas = await generateShareImage();
+      const canvas = await generateSharePoster();
       const link = document.createElement('a');
       const typeName = lastResult ? lastResult.finalType.code : 'result';
       link.download = `SBTI-${typeName}.png`;
@@ -1998,7 +2817,7 @@
 
     // 微信分享（提示截图/复制链接）
     document.getElementById('shareWechatBtn').addEventListener('click', async () => {
-      const canvas = await generateShareImage();
+      const canvas = await generateSharePoster();
       try {
         canvas.toBlob(async (blob) => {
           if (navigator.share && blob) {
